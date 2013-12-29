@@ -31,8 +31,36 @@
                 android:value="com.kgrieger.yogaclass.MainActivity" />
         </activity>
         <activity
-            android:name="com.kgrieger.yogaclass.EditClass"
+            android:name="com.kgrieger.yogaclass.EditSession"
             android:label="@string/title_activity_edit_class"
+            android:parentActivityName="com.kgrieger.yogaclass.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kgrieger.yogaclass.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.kgrieger.yogaclass.EditSessionPoses"
+            android:label="@string/title_activity_edit_session_poses"
+            android:parentActivityName="com.kgrieger.yogaclass.EditSession" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kgrieger.yogaclass.EditSession" />
+        </activity>
+        <activity
+            android:name="com.kgrieger.yogaclass.SelectPose"
+            android:label="@string/title_activity_select_pose" >
+        </activity>
+        <activity
+            android:name="com.kgrieger.yogaclass.YogaClass"
+            android:label="@string/title_activity_yoga_class"
+            android:parentActivityName="com.kgrieger.yogaclass.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kgrieger.yogaclass.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.kgrieger.yogaclass.SelectSession"
+            android:label="@string/title_activity_select_session"
             android:parentActivityName="com.kgrieger.yogaclass.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

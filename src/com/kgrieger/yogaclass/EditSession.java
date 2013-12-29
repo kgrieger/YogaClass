@@ -1,36 +1,36 @@
 package com.kgrieger.yogaclass;
 
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 
-public class EditPose extends Activity {
+public class EditSession extends Activity {
 
-	ArrayAdapter<Pose> arrAdapter;
-	ListView posesListView;
+	ArrayAdapter<Session> arrAdapter;
+	ListView sessionsListView;
 	EditText etName, etmDescription;
-	Button btnCreate, btnSave, btnDelete;
+	Button btnCreate, btnSave, btnDelete, btnEditPoses;
 	SqlOps db;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_edit_pose);
+		setContentView(R.layout.activity_edit_session);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		setTitle("Edit Poses");
+		setTitle("Edit Sessions");
 		
 		db = new SqlOps(this, "YogaClass", null, 2);
 		
@@ -39,6 +39,7 @@ public class EditPose extends Activity {
 		btnCreate = (Button) findViewById(R.id.btnCreate);
 		btnSave = (Button) findViewById(R.id.btnSave);
 		btnDelete = (Button) findViewById(R.id.btnDelete);
+		btnEditPoses = (Button) findViewById(R.id.btnEditPoses);
 		
 		View.OnClickListener l1 = new View.OnClickListener(){
 			@Override
@@ -51,22 +52,21 @@ public class EditPose extends Activity {
 		btnCreate.setOnClickListener(l1);
 		btnSave.setOnClickListener(l1);
 		btnDelete.setOnClickListener(l1);
-		
+		btnEditPoses.setOnClickListener(l1);
 		
 		setCreateState();
 		
-		
-		posesListView = (ListView) findViewById(R.id.lvSelectPose);
+		sessionsListView = (ListView) findViewById(R.id.lvClasses);
 
-		arrAdapter = new ArrayAdapter<Pose>(
+		arrAdapter = new ArrayAdapter<Session>(
 				this,
 				android.R.layout.simple_list_item_single_choice,
 				android.R.id.text1,
-				db.poseList()
+				db.sessionList()
 				);
-		posesListView.setAdapter(arrAdapter);
+		sessionsListView.setAdapter(arrAdapter);
 
-		posesListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+		sessionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
@@ -76,22 +76,23 @@ public class EditPose extends Activity {
 		});
 	}
 	
-
 	public void setCreateState(){
 		btnCreate.setEnabled(false);
 		btnDelete.setEnabled(false);
+		btnEditPoses.setEnabled(false);
 		etName.setText("");
 		etmDescription.setText("");
 	}
 	
 	public int getSelectedChildIndex(){
-		for(int a = 0; a< posesListView.getChildCount(); a++){
-			CheckedTextView ctv = (CheckedTextView) posesListView.getChildAt(a);
+		for(int a = 0; a< sessionsListView.getChildCount(); a++){
+			CheckedTextView ctv = (CheckedTextView) sessionsListView.getChildAt(a);
 			if(ctv.isChecked())
 				return a;
 		}
 		return -1;
 	}
+	
 
 	public void bigEventHandler(View view, int position){
 		String className = view.getClass().getName();
@@ -103,40 +104,41 @@ public class EditPose extends Activity {
 		//create
 		if((!btnCreate.isEnabled()) && (!btnDelete.isEnabled())
 				&& buttonText.equals("Save")){
-			Pose pose = new Pose(etName.getText().toString(), 
+			Session session = new Session(etName.getText().toString(), 
 					etmDescription.getText().toString());
-			db.poseCreate(pose);
+			db.sessionCreate(session);
 			arrAdapter.clear();
-			arrAdapter.addAll(db.poseList());
+			arrAdapter.addAll(db.sessionList());
 			setCreateState();
 		}
 		
 		//read
 		if(position != -1 && buttonText.equals("")){
-			Pose pose = arrAdapter.getItem(position);
-			etName.setText(pose.getName());
-			etmDescription.setText(pose.getDescription());
+			Session session = arrAdapter.getItem(position);
+			etName.setText(session.getName());
+			etmDescription.setText(session.getDescription());
 			btnCreate.setEnabled(true);
 			btnDelete.setEnabled(true);
+			btnEditPoses.setEnabled(true);
 		}
 		
 		//update
 		if(btnCreate.isEnabled() && btnDelete.isEnabled() && buttonText.equals("Save")){
-			Pose pose = arrAdapter.getItem(getSelectedChildIndex());
-			pose.setName(etName.getText().toString());
-			pose.setDescription(etmDescription.getText().toString());
-			db.poseUpdate(pose);
+			Session session = arrAdapter.getItem(getSelectedChildIndex());
+			session.setName(etName.getText().toString());
+			session.setDescription(etmDescription.getText().toString());
+			db.sessionUpdate(session);
 			arrAdapter.clear();
-			arrAdapter.addAll(db.poseList());
+			arrAdapter.addAll(db.sessionList());
 			setCreateState();
 		}
 		
 		//delete
 		if(btnCreate.isEnabled() && btnDelete.isEnabled() && buttonText.equals("Delete")){
-			Pose pose = arrAdapter.getItem(getSelectedChildIndex());
-			db.poseDelete(pose);
+			Session session = arrAdapter.getItem(getSelectedChildIndex());
+			db.sessionDelete(session);
 			arrAdapter.clear();
-			arrAdapter.addAll(db.poseList());
+			arrAdapter.addAll(db.sessionList());
 			setCreateState();
 		}
 		
@@ -144,7 +146,17 @@ public class EditPose extends Activity {
 		if(btnCreate.isEnabled() && btnDelete.isEnabled() && buttonText.equals("Create")){
 			setCreateState();
 		}
+		
+		//go to EditSessionPoses Activity
+		if(buttonText.equals("Edit Poses")){
+			Intent intent = new Intent(this,  EditSessionPoses.class);
+			Session session = arrAdapter.getItem(getSelectedChildIndex());
+			intent.putExtra("session_id",session.getSessionId());
+			intent.putExtra("name", session.getName());
+		    startActivity(intent);	
+		}
 	}
+
 
 
 	/**
@@ -160,7 +172,7 @@ public class EditPose extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.edit_pose, menu);
+		getMenuInflater().inflate(R.menu.edit_class, menu);
 		return true;
 	}
 
@@ -183,17 +195,17 @@ public class EditPose extends Activity {
 
 }
 
-class Pose{
-	private int pose_id;
+class Session{
+	private int session_id;
 	private String name, description;
 	
-	public Pose(int i, String n, String d){
-		this.pose_id = i;
+	public Session(int i, String n, String d){
+		this.session_id = i;
 		this.name = n;
 		this.description = d;
 	}
 	
-	public Pose(String n, String d){
+	public Session(String n, String d){
 		this.name = n;
 		this.description = d;
 	}
@@ -204,14 +216,14 @@ class Pose{
 	
 	public String toString2(){
 		return String.format(
-				"pose_id: %d name: %s description: %s",
-				this.getPoseId(),
+				"session_id: %d name: %s description: %s",
+				this.getSessionId(),
 				this.getName(),
 				this.getDescription());
 	}
 	
-	public int getPoseId(){
-		return this.pose_id;
+	public int getSessionId(){
+		return this.session_id;
 	}
 	
 	public String getName(){
@@ -222,8 +234,8 @@ class Pose{
 		return this.description;
 	}
 	
-	public void setPoseId(int pose_id){
-		this.pose_id = pose_id;
+	public void setSessionId(int session_id){
+		this.session_id = session_id;
 	}
 	
 	public void setName(String name){
@@ -235,22 +247,3 @@ class Pose{
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

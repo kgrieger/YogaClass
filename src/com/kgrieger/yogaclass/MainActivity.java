@@ -2,9 +2,12 @@ package com.kgrieger.yogaclass;
 
 
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +30,12 @@ public class MainActivity extends Activity {
 		};
 		Button btnEditPoses = (Button) findViewById(R.id.btnEditPoses);
 		Button btnEditClasses = (Button) findViewById(R.id.btnEditClasses);
+		Button btnStartClass = (Button) findViewById(R.id.btnStartClass);
+		
 		
 		btnEditPoses.setOnClickListener(ocl1);
 		btnEditClasses.setOnClickListener(ocl1);
+		btnStartClass.setOnClickListener(ocl1);
 	}
 
 	@Override
@@ -41,13 +47,18 @@ public class MainActivity extends Activity {
 	
 	void changeActivity(Button b){
 		String buttonText = b.getText().toString();
+		Log.d("YogaClass",buttonText);
 		if(buttonText.equals("Edit Poses")){
 		    Intent intent = new Intent(this,  EditPose.class);
 		    startActivity(intent);
+		} else if(buttonText.equals("Edit Classes")){
+				Intent intent = new Intent(this,  EditSession.class);
+			    startActivity(intent);	
 		} else {
-		    Intent intent = new Intent(this,  EditClass.class);
-		    startActivity(intent);
+			Intent intent = new Intent(this,  SelectSession.class);
+		    startActivity(intent);	
 		}
+
 
 	}
 

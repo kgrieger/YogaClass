@@ -6,5 +6,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_edit_pose">Edit Pose</string>
     <string name="title_activity_edit_class">Edit Class</string>
+    <string name="title_activity_edit_session_poses">EditSessionPoses</string>
+    <string name="title_activity_select_pose">Select Pose</string>
+    <string name="title_activity_yoga_class">Yoga Class</string>
+    <string name="title_activity_select_session">Select Session</string>
 
 </resources>

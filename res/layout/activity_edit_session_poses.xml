@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".EditSessionPoses" >
+
+    <TextView
+        android:id="@+id/tvNameDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/btnAddPose"
+        android:lines="4"
+        android:text="Name:" />
+
+    <TextView
+        android:id="@+id/tvDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvNameDescription"
+        android:layout_below="@+id/tvNameDescription"
+        android:text="Duration" />
+
+    <SeekBar
+        android:id="@+id/sbDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvDuration"
+        android:layout_below="@+id/tvDuration" />
+
+    <Button
+        android:id="@+id/btnRemove"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sbDuration"
+        android:layout_below="@+id/sbDuration"
+        android:text="Remove" />
+
+    <Button
+        android:id="@+id/btnMoveDown"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/sbDuration"
+        android:layout_alignTop="@+id/btnRemove"
+        android:text="Move Down" />
+
+    <Button
+        android:id="@+id/btnMoveUp"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btnMoveDown"
+        android:layout_toLeftOf="@+id/btnMoveDown"
+        android:text="Move UP" />
+
+    <ListView
+        android:id="@+id/lvSessionPoses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice"
+        android:layout_above="@+id/btnSaveExit"
+        android:layout_below="@+id/btnMoveUp"
+        android:layout_centerHorizontal="true" >
+
+    </ListView>
+
+    <Button
+        android:id="@+id/btnAddPose"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/lvSessionPoses"
+        android:layout_alignTop="@+id/tvNameDescription"
+        android:text="Add Pose" />
+
+    <Button
+        android:id="@+id/btnSaveExit"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Save &amp; Exit" />
+
+    <TextView
+        android:id="@+id/tvTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="Total: " />
+
+</RelativeLayout>

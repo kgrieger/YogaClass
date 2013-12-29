@@ -64,10 +64,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:text="Delete" />
+
+        <Button
+            android:id="@+id/btnEditPoses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Edit Poses" />
+
     </LinearLayout>
 
     <ListView
-        android:id="@+id/lvSelectPose"
+        android:id="@+id/lvClasses"
         android:choiceMode="singleChoice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
